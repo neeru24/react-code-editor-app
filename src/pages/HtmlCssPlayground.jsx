@@ -9,7 +9,6 @@ import {
   useColorMode,
   Container,
   Badge,
-  keyframes,
   Tabs,
   TabList,
   TabPanels,
@@ -28,6 +27,7 @@ import {
   Progress,
   SimpleGrid,
 } from "@chakra-ui/react";
+import { keyframes } from "@emotion/react";
 import { 
   MoonIcon, 
   SunIcon, 

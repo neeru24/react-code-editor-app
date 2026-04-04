@@ -80,6 +80,65 @@ const Output = forwardRef(({ editorRef, language }, ref) => {
       setCurrentInput("");
 
       const code = editorRef.current.getValue();
+
+      // 🔥 HTML SUPPORT
+      if (language === "html") {
+        setTerminal([]);
+      
+        const iframe = document.createElement("iframe");
+        iframe.style.width = "100%";
+        iframe.style.height = "100%";
+        iframe.style.border = "none";
+      
+        iframe.srcdoc = code;
+      
+        const container = document.getElementById("output-container");
+        if (container) {
+          container.innerHTML = "";
+          container.appendChild(iframe);
+        }
+      
+        return;
+      }
+
+      // 🔥 CSS SUPPORT
+      if (language === "css") {
+      setTerminal([]);
+
+      const iframe = document.createElement("iframe");
+      iframe.style.width = "100%";
+      iframe.style.height = "100%";
+      iframe.style.border = "none";
+
+      iframe.srcdoc = `
+        <!DOCTYPE html>
+        <html>
+          <head>
+            <style>
+              html, body {
+                margin: 0;
+                padding: 0;
+                height: 100%;
+              }
+              ${code}
+            </style>
+          </head>
+          <body>
+            <h1 style="text-align:center; padding-top: 20px;">
+              CSS Preview 🎨
+            </h1>
+          </body>
+        </html>
+      `;
+
+      const container = document.getElementById("output-container");
+      if (container) {
+        container.innerHTML = "";
+        container.appendChild(iframe);
+      }
+    
+      return;
+    }
       const prompts = extractPrompts(code);
       setExpectedInputs(prompts.length);
 
@@ -135,14 +194,32 @@ const Output = forwardRef(({ editorRef, language }, ref) => {
      
 
   return (
+    
     <Box flex="1" display="flex" flexDirection="column" p={3}>
       <Box display="flex" justifyContent="space-between">
-        <Text color="#00ffcc">🖥 Terminal</Text>
+        <Text color="#00ffcc">
+          {language === "html" || language === "css"
+            ? "🖥 Preview"
+            : "🖥 Terminal"}
+        </Text>
         <Text color="red" cursor="pointer" onClick={() => setTerminal([])}>
           Clear
         </Text>
       </Box>
+      {(language === "html" || language === "css") && (
+        <Box
+          id="output-container"
+          flex="1"
+          height="100%"
+          bg="white"
+          border="1px solid #00ffcc"
+          borderRadius="6px"
+          mb={2}
+          overflow="hidden"
+        />
+      )}
 
+      {language !== "html" && language !== "css" && (
       <Box
         ref={terminalRef}
         flex="1"
@@ -155,7 +232,7 @@ const Output = forwardRef(({ editorRef, language }, ref) => {
         {terminal.map((line, i) => (
           <Text key={i}>{line}</Text>
         ))}
-
+    
         {waitingForInput && (
           <Box display="flex">
             <Text>{"> "}</Text>
@@ -178,6 +255,7 @@ const Output = forwardRef(({ editorRef, language }, ref) => {
           </Box>
         )}
       </Box>
+    )}
     </Box>
   );
 });

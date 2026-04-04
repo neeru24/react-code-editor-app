@@ -10,7 +10,6 @@ import {
   SimpleGrid,
   Container,
   Badge,
-  keyframes,
   Tooltip,
   Wrap,
   WrapItem,
@@ -33,6 +32,7 @@ import {
   Alert,
   AlertIcon,
 } from "@chakra-ui/react";
+import { keyframes } from "@emotion/react";
 import { 
   MoonIcon, 
   SunIcon, 
@@ -102,7 +102,7 @@ export default function LandingPage({ onLaunch }) {
 
   // Typing animation texts
   const texts = [
-    "Run Python offline",
+    "Run Code Locally",
     "Execute JavaScript instantly", 
     "Zero latency dev",
     "Code anywhere, anytime",
