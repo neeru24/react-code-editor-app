@@ -206,16 +206,18 @@ const Output = forwardRef(({ editorRef, language }, ref) => {
           Clear
         </Text>
       </Box>
-      <Box
-        id="output-container"
-        flex="1"
-        height="100%"
-        bg="white"
-        border="1px solid #00ffcc"
-        borderRadius="6px"
-        mb={2}
-        overflow="hidden"
-      />
+      {(language === "html" || language === "css") && (
+        <Box
+          id="output-container"
+          flex="1"
+          height="100%"
+          bg="white"
+          border="1px solid #00ffcc"
+          borderRadius="6px"
+          mb={2}
+          overflow="hidden"
+        />
+      )}
 
       {language !== "html" && language !== "css" && (
       <Box
